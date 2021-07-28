@@ -1,4 +1,5 @@
- 
+ ini_set('display_errors', 1); 
+error_reporting(E_ALL);  
 header('Content-type: image/png');
 $image = imagecreatefrompng('https://github.com/geraldforkin/bbb/blob/main/pr.png?raw=true');
 $red = imageColorAllocate($image, 184, 39, 42);
