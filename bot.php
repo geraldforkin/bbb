@@ -1,12 +1,12 @@
 header("Content-Type: image/png");
-$image = @imagecreatefrompng("https://raw.githubusercontent.com/geraldforkin/bbb/main/pr.png")
+$image = @imagecreatefrompng("./pr.png")
     or die("Невозможно создать поток изображения");
 
 $red = imageColorAllocate($image, 184, 39, 42);
 $black = imageColorAllocate($image, 51, 51, 51);
 
-$font_file = 'https://raw.githubusercontent.com/geraldforkin/bbb/main/optima.ttf';
-$font_avenir = 'https://raw.githubusercontent.com/geraldforkin/bbb/main/avenirnextfont.ttf';
+$font_file = './optima.ttf';
+$font_avenir = './avenirnextfont.ttf';
 $rand = array(175.16,145.11,115.09,143.02);
 $rand = $rand[array_rand($rand)];
  
