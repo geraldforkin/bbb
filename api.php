@@ -4,7 +4,7 @@ error_reporting(E_ALL);
 require_once('./api/Connector.php');
 $con = new Connector();
 
-$bot_config = file_get_contents('./bot_config.json');
+$bot_config = file_get_contents('https://raw.githubusercontent.com/geraldforkin/bbb/main/bot_config.json');
 $bot_config = json_decode($bot_config); 
 $bot_config = $bot_config[0];
 
