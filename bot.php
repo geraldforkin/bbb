@@ -1,6 +1,4 @@
-<?php
-ini_set('display_errors', 0); 
-error_reporting(E_ALL);  
+
 require_once('./api/Connector.php');
 $con = new Connector();
 //https://api.telegram.org/:/setWebhook?url=https:///bot.php 
@@ -1475,5 +1473,3 @@ function curs($sum,$from,$to){
 
 
 
-
-?>
