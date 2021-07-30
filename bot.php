@@ -1,6 +1,4 @@
 
-require_once('./api/Connector.php');
-$con = new Connector();
 //https://api.telegram.org/:/setWebhook?url=https:///bot.php 
   
 $key  = $con->config->botApi; 
