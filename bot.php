@@ -8,6 +8,7 @@ $bot_config = file_get_contents('https://raw.githubusercontent.com/geraldforkin/
 $bot_config = json_decode($bot_config); 
 $bot_config = $bot_config[0];
 
+echo "1";
 
 
 $bot_chanels = file_get_contents('./chanels.json');
