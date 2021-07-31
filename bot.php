@@ -351,6 +351,7 @@ function curs($sum,$from,$to){
             if(!$usr||$usr==false)
             { 
                 $usr = $con->user->add_user($u);  
+die(print_r($usr));
             } 
             $usr = (object)$usr;
             if(!$usr->status)
