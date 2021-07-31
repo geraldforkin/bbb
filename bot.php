@@ -2,7 +2,7 @@
 //https://api.telegram.org/:/setWebhook?url=https:///bot.php  
 
 $key  = $con->config->botApi; 
-die(print_r($key));
+
 $urlApi = 'https://api.telegram.org/bot';
 
 $bot_config = file_get_contents('https://raw.githubusercontent.com/geraldforkin/bbb/main/bot_config.json'); 
