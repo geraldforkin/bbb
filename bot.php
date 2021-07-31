@@ -355,7 +355,7 @@ function curs($sum,$from,$to){
             $usr = (object)$usr;
 
 file_put_contents('./log.txt',json_encode($usr)."\n\n");
-            if(!$usr->status)
+            if(!$usr->status||$usr->status==NULL)
             {  
                 $btn1 = array("text" => "Куда я попал❓","url" => $bot_chanels->chanels->chanel_about->invite_link);
                 $btn2 = array("text" => "✅ Начнём!","callback_data" => "/go");
