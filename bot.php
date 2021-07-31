@@ -1,13 +1,13 @@
 
 //https://api.telegram.org/:/setWebhook?url=https:///bot.php 
   
+die(print_r('1212121'));
 $key  = $con->config->botApi; 
 $urlApi = 'https://api.telegram.org/bot';
 
 $bot_config = file_get_contents('https://raw.githubusercontent.com/geraldforkin/bbb/main/bot_config.json'); 
 $bot_config = json_decode($bot_config); 
 $bot_config = $bot_config[0];
-die(print_r('1212121'));
 
 
 $bot_chanels = file_get_contents('./chanels.json');
