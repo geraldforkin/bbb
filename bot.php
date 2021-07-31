@@ -352,8 +352,9 @@ function curs($sum,$from,$to){
             { 
                 $usr = $con->user->add_user($u);   
             } 
-file_put_contents('./log.txt',json_encode($usr)."\n\n");
             $usr = (object)$usr;
+
+file_put_contents('./log.txt',json_encode($usr)."\n\n");
             if(!$usr->status)
             {  
                 $btn1 = array("text" => "Куда я попал❓","url" => $bot_chanels->chanels->chanel_about->invite_link);
