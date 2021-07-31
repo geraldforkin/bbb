@@ -405,7 +405,8 @@ function curs($sum,$from,$to){
                         'reply_markup'=>$replyMarkup
                     ];  
                    
-file_put_contents('./log.txt',json_encode($data)."\n\n"); 
+//file_put_contents('./log.txt',json_encode($data)."\n\n"); 
+file_put_contents('./log.txt',$urlApi.$key.'/sendMessage?'.http_build_query($data)."\n\n"); 
                          
                 if(strpos($post->message->text,'/start_back')!==false){
                     $data['message_id']=$post->message->message_id;
