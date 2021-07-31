@@ -347,12 +347,12 @@ function curs($sum,$from,$to){
 
         /*~~ User Register ~~*/
         if($post->message->chat->type=="private"&&(strpos($post->message->text,'/start')!==false||strpos($post->message->text,'/menu')!==false)){
-
+ 
             if(!$usr||$usr==false)
             { 
-                $usr = $con->user->add_user($u);  
-file_put_contents('./log.txt',json_encode($usr)."\n\n");
+                $usr = $con->user->add_user($u);   
             } 
+file_put_contents('./log.txt',json_encode($usr)."\n\n");
             $usr = (object)$usr;
             if(!$usr->status)
             {  
