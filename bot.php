@@ -354,7 +354,6 @@ function curs($sum,$from,$to){
             } 
             $usr = (object)$usr;
 
-file_put_contents('./log.txt',json_encode($usr)."\n\n");
             if(!$usr->status||$usr->status==NULL)
             {  
                 $btn1 = array("text" => "Куда я попал❓","url" => $bot_chanels->chanels->chanel_about->invite_link);
@@ -392,6 +391,7 @@ file_put_contents('./log.txt',json_encode($usr)."\n\n");
                         array("text" => "📈 Топ за все время","callback_data" => "/top_allways")
                     );
             }  
+                         
             $keyboard = array("inline_keyboard" => $inline_keyboard);
             $replyMarkup = json_encode($keyboard); 
            
@@ -404,7 +404,9 @@ file_put_contents('./log.txt',json_encode($usr)."\n\n");
                         'text' => "Твой ID: <b>".$post->message->chat->id."</b>\nТвой скрытый ID: <b>".$usr->id."</b>\n\n",
                         'reply_markup'=>$replyMarkup
                     ];  
-                    
+                   
+file_put_contents('./log.txt',json_encode($data)."\n\n"); 
+                         
                 if(strpos($post->message->text,'/start_back')!==false){
                     $data['message_id']=$post->message->message_id;
                     file_get_contents($urlApi.$key.'/editMessageText?'.http_build_query($data));
