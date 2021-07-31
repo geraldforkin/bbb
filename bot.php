@@ -1,6 +1,5 @@
 
-//https://api.telegram.org/:/setWebhook?url=https:///bot.php 
-  die(print_r('121121'));
+//https://api.telegram.org/:/setWebhook?url=https:///bot.php  
 
 $key  = $con->config->botApi; 
 die(print_r($key));
