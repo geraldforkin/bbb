@@ -1324,6 +1324,7 @@ file_put_contents('./log.txt',$urlApi.$key.'/sendMessage?'.http_build_query($dat
         if (preg_match('/^[0-9.]+$/i', $post->message->text)&&intval($post->message->text)>0){
             $message_id = intval($post->message->message_id);
             $card = (object)$con->user->get_card_ok(); 
+            if(!$card){ return false;}
             $product = (object)$con->products->get_product($card->pid);
             $worker = (object)$con->user->get_user_byid($product->uid); 
 
