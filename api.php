@@ -7,8 +7,7 @@ $bot_config = file_get_contents('https://raw.githubusercontent.com/geraldforkin/
 $bot_config = json_decode($bot_config); 
 $bot_config = $bot_config[0];
 
-
-
+die(print_r($_GET['get_product']));
 if($_GET['get_product']){
     header('Content-type: application/json');
     $product = (object)$con->products->get_product($_GET['get_product']);
