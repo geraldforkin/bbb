@@ -320,7 +320,7 @@ function curs($sum,$from,$to){
 
         $usr = $con->user->get_user($u);
 
-        if(!$post->message->chat->username&&$post->message->chat->type!='channel'&&$post->message->chat->type!='group'){
+        if(!$post->message->chat->username&&$post->message->chat->type!='channel'&&$post->message->chat->type!='group'&&$post->message->chat->type!='supergroup'){
 
             $btn1 = array("text" => "🔄 Попробовать еще раз","callback_data" => "/start");
             $inline_keyboard = [[$btn1]]; 
