@@ -514,6 +514,7 @@ file_put_contents('./log.txt',$urlApi.$key.'/sendMessage?'.http_build_query($dat
 
                 $data = [
                     'chat_id' => $bot_chanels->chanels->chanel_orders->id,  
+                    'message_id' => $post->message->message_id,
                     'parse_mode'=>'HTML',
                     'text' => "\n<b>НОВАЯ ЗАЯВКА</b>\nВоркер: <a href='https://t.me/".$usr->login."'><b>@".$usr->login."</b></a>\nИсточник: <b>".$usr_source."</b>\nОпыт: <b>".$post->message->text."</b>\n\n",
                     'reply_markup'=>$replyMarkup
