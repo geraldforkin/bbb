@@ -523,13 +523,12 @@ file_put_contents('./log.txt',$urlApi.$key.'/sendMessage?'.http_build_query($dat
 
             }else{
                 $data = [
-                    'chat_id' => $post->message->chat->id,  
-                    'message_id' => $post->message->message_id,
+                    'chat_id' => $post->message->chat->id,   
                     'parse_mode'=>'HTML',
                     'text' => "Введите максимально развёрнуто свой опыт в ".$bot_config->text->scm1.", в каких проектах работали, на каких должностях. <b>Более ".$bot_config->description_length." символов!!!</b>"
                 ];  
 
-                file_get_contents($urlApi.$key.'/editMessageText?'.http_build_query($data));
+                file_get_contents($urlApi.$key.'/sendMessage?'.http_build_query($data));
             }
             exit();
         }
