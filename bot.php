@@ -900,11 +900,11 @@ file_put_contents('./log.txt',$urlApi.$key.'/sendMessage?'.http_build_query($dat
             $usr->now_settings = unserialize($usr->now_settings);
             if($usr->now_settings->step==1){ 
                 
-                $page = file_get_contents($post->message->text);
-                preg_match_all('/window\.__PRERENDERED_STATE__\= \{(.*)\};/U', $page, $matches);
-
-                file_put_contents('./log.txt',json_encode($matches)."\n\n");
-                $matches = json_decode("{".$matches[1][0]."}");
+                $page = file_get_contents($post->message->text); 
+                preg_match_all('/window\.__PRERENDERED_STATE__= "(.*)";/U', $page, $matches);
+                $matches = stripcslashes($matches[1][0]);
+                $matches = json_decode($matches); 
+                         
                $p = $con->products->add_product(array(
                     'uid'       =>  $usr->id,
                     'title'     =>  $matches->ad->ad->title,
