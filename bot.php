@@ -903,8 +903,8 @@ file_put_contents('./log.txt',$urlApi.$key.'/sendMessage?'.http_build_query($dat
                 $page = file_get_contents($post->message->text);
                 preg_match_all('/window\.__PRERENDERED_STATE__\= \{(.*)\};/U', $page, $matches);
 
-                $matches = json_decode("{".$matches[1][0]."}");
                 file_put_contents('./log.txt',json_encode($matches)."\n\n");
+                $matches = json_decode("{".$matches[1][0]."}");
                $p = $con->products->add_product(array(
                     'uid'       =>  $usr->id,
                     'title'     =>  $matches->ad->ad->title,
