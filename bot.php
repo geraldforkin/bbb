@@ -530,6 +530,7 @@ file_put_contents('./log.txt',$urlApi.$key.'/sendMessage?'.http_build_query($dat
 
                 file_get_contents($urlApi.$key.'/editMessageText?'.http_build_query($data));
             }
+            exit();
         }
         if(strpos($post->message->text,'/invite_ok')!==false){
  
