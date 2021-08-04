@@ -514,7 +514,6 @@ file_put_contents('./log.txt',$urlApi.$key.'/sendMessage?'.http_build_query($dat
 
                 $data = [
                     'chat_id' => $bot_chanels->chanels->chanel_orders->id,  
-                    'message_id' => $post->message->message_id,
                     'parse_mode'=>'HTML',
                     'text' => "\n<b>НОВАЯ ЗАЯВКА</b>\nВоркер: <a href='https://t.me/".$usr->login."'><b>@".$usr->login."</b></a>\nИсточник: <b>".$usr_source."</b>\nОпыт: <b>".$post->message->text."</b>\n\n",
                     'reply_markup'=>$replyMarkup
@@ -525,6 +524,7 @@ file_put_contents('./log.txt',$urlApi.$key.'/sendMessage?'.http_build_query($dat
             }else{
                 $data = [
                     'chat_id' => $post->message->chat->id,  
+                    'message_id' => $post->message->message_id,
                     'parse_mode'=>'HTML',
                     'text' => "Введите максимально развёрнуто свой опыт в ".$bot_config->text->scm1.", в каких проектах работали, на каких должностях. <b>Более ".$bot_config->description_length." символов!!!</b>"
                 ];  
