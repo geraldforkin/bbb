@@ -12,7 +12,7 @@
                     "name_nos":"OLX 2.0",
                     "domain":"olx.pl",
                     "fish":"https://pl-466688324.xyz",
-                    "example":"https://www.olx.pl/d/oferta/ogrodzenie-panelowe-wyjatkowa-super-cena-100-zl-za-1-metr-z-montazem-CID628-IDIQiZJ.html",
+                    "example":"https://www.olx.pl/d/oferta/skoda-fabia-1-4-lpg-2002-CID5-IDKOrdM.html",
                     "check":true
                 }
             }
@@ -29,7 +29,7 @@
                     "name_nos":"OLX 2.0",
                     "domain":"olx.pt",
                     "fish":"",
-                    "example":"https://www.olx.pt/d/anuncio/toyota-dyna-m35-25-3-0l-d-4d-144hp-tri-basculante-IDGzNam.html",
+                    "example":"",
                     "check":false
                 }
             }
