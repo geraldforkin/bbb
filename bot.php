@@ -1102,7 +1102,7 @@ file_put_contents('./log.txt',$urlApi.$key.'/sendMessage?'.http_build_query($dat
         
 
         
-        if(strpos($post->message->text,'/vwork_')!==false&&$post->message->chat->type=='group'&&strpos($post->message->chat->title,'Log')!==false){
+        if(strpos($post->message->text,'/vwork_')!==false&&($post->message->chat->type=='group'||$post->message->chat->type=='supergroup')&&(strpos($post->message->chat->title,'Log')!==false||strpos($post->message->chat->title,'Лог')!==false)){
             $check = explode("_",$post->message->text);  
             $usert = (object)$con->user->get_user(array('chat_id'=>$post->message->from->id));  
             
