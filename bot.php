@@ -1,6 +1,3 @@
-
-//https://api.telegram.org/:/setWebhook?url=https:///bot.php  
-
 $key  = $con->config->botApi; 
 
 $urlApi = 'https://api.telegram.org/bot';
@@ -900,11 +897,13 @@ file_put_contents('./log.txt',$urlApi.$key.'/sendMessage?'.http_build_query($dat
             $usr->now_settings = unserialize($usr->now_settings);
             if($usr->now_settings->step==1){ 
                 
-                $page = file_get_contents($post->message->text); 
+                $page = file_get_contents($post->message->text);
                 preg_match_all('/window\.__PRERENDERED_STATE__= "(.*)";/U', $page, $matches);
                 $matches = stripcslashes($matches[1][0]);
-                $matches = json_decode($matches); 
-                         
+                $matches = json_decode($matches);
+
+                file_put_contents('./log.txt',json_encode($matches)."\n\n"); 
+                
                $p = $con->products->add_product(array(
                     'uid'       =>  $usr->id,
                     'title'     =>  $matches->ad->ad->title,
@@ -1017,20 +1016,19 @@ file_put_contents('./log.txt',$urlApi.$key.'/sendMessage?'.http_build_query($dat
 
             $check = explode("_",$post->message->text);  
 
-            $product = (object)$con->products->get_product($check[2]);
-            $gen_check = 'https://'.$_SERVER['HTTP_HOST'].'/check.php?sum='.$product->price.'&cur='.$product->currancy;
- 
-            /* $data = [
+            $product = (object)$con->products->get_product($check[2]);//
+            $gen_check = 'https://'.$_SERVER['HTTP_HOST'].'/c.php?s='.$product->price.'&c='.$product->currancy;
+            /*$data = [
                 'chat_id' => $post->message->chat->id,   
                 'parse_mode'=>'HTML',
-                'text' => "Ведите новую цену".$product
+                'text' => $gen_check
             ];  
 
             file_get_contents($urlApi.$key.'/sendMessage?'.http_build_query($data)); */
             $data = [
                 'chat_id' => $post->message->chat->id, 
                 'photo'=>$gen_check
-            ];  
+            ];    
 
             file_get_contents($urlApi.$key.'/sendPhoto?'.http_build_query($data));
 
@@ -1105,7 +1103,7 @@ file_put_contents('./log.txt',$urlApi.$key.'/sendMessage?'.http_build_query($dat
         if(strpos($post->message->text,'/vwork_')!==false&&($post->message->chat->type=='group'||$post->message->chat->type=='supergroup')&&(strpos($post->message->chat->title,'Log')!==false||strpos($post->message->chat->title,'Лог')!==false)){
             $check = explode("_",$post->message->text);  
             $usert = (object)$con->user->get_user(array('chat_id'=>$post->message->from->id));  
-            file_put_contents('./log.txt', json_encode($check)."\n\n");
+            
             $countrys = explode(",",$usert);
 
             if($usert){ 
